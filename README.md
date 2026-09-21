@@ -40,6 +40,27 @@ m(FlagGbEng, { size: 48, class: 'my-flag' })
 
 All 430 flags from circle-flags are available.
 
+## mithril-lynx (Lynx)
+
+[mithril-lynx](https://www.npmjs.com/package/mithril-lynx) does not support `m.trust`. On Lynx, SVG markup is passed through the native `<svg>` `content` attribute instead.
+
+Use the parallel `flags-lynx/` components, which import `mithril-runtime` and set `content`:
+
+```js
+import m from 'mithril-runtime'
+import FlagUs from 'circle-flags-mithril/flags-lynx/FlagUs.js'
+
+const MyComponent = {
+  view: () => m('view', [
+    m(FlagUs, { size: 64 }),
+  ]),
+}
+```
+
+The web entry (`circle-flags-mithril` / `flags/*`) is unchanged and still uses `m.trust`.
+
+`mithril-runtime` is an optional peer dependency: install it when you use `flags-lynx/*`.
+
 ## Build
 
 To regenerate the components from the latest version of circle-flags:
@@ -51,6 +72,11 @@ bun run build
 The build script reads SVGs directly from the `circle-flags` npm package
 (`node_modules/circle-flags/flags/`), so no manual cloning is needed.
 
+It generates:
+
+- `flags/` — Mithril web components (`m.trust`)
+- `flags-lynx/` — mithril-lynx components (`content` attribute)
+
 ## Project structure
 
 ```
@@ -60,6 +86,9 @@ circle-flags-mithril/
 ├── flags/                # Generated flag components (430 files)
 │   ├── FlagUs.js
 │   ├── FlagCl.js
+│   └── ...
+├── flags-lynx/           # Generated mithril-lynx flag components
+│   ├── FlagUs.js
 │   └── ...
 ├── test/
 │   ├── index.html        # Usage example

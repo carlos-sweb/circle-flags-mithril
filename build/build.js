@@ -4,8 +4,10 @@ import { existsSync, mkdirSync } from 'fs'
 
 const FLAGS_DIR = join(import.meta.dir, '../node_modules/circle-flags/flags')
 const OUT_DIR   = join(import.meta.dir, '../flags')
+const OUT_LYNX  = join(import.meta.dir, '../flags-lynx')
 
 if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true })
+if (!existsSync(OUT_LYNX)) mkdirSync(OUT_LYNX, { recursive: true })
 
 /**
  * Convert a circle-flags code (e.g. "us", "gb-eng", "aq-true_south")
@@ -58,6 +60,10 @@ for (const file of files) {
     ? `{ ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}) }`
     : `{ ..._attrs(vnode.attrs?.size), viewBox: '${viewBox}', ...(vnode.attrs || {}) }`
 
+  const lynxAttrsExpr = viewBox === '0 0 512 512'
+    ? `{ ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: \`${svgSafe}\` }`
+    : `{ ..._attrs(vnode.attrs?.size), viewBox: '${viewBox}', ...(vnode.attrs || {}), content: \`${svgSafe}\` }`
+
   const componentCode = `import _attrs from '../default_attrs.js'
 import m from 'mithril'
 
@@ -73,7 +79,22 @@ const ${componentName} = {
 export default ${componentName}
 `
 
+  const lynxComponentCode = `import _attrs from '../default_attrs.js'
+import m from 'mithril-runtime'
+
+/** Mithril component for the "${code}" circle flag (mithril-lynx). */
+const ${componentName} = {
+  view: (vnode) => m(
+    'svg',
+    ${lynxAttrsExpr}
+  )
+}
+
+export default ${componentName}
+`
+
   await Bun.write(join(OUT_DIR, `${componentName}.js`), componentCode)
+  await Bun.write(join(OUT_LYNX, `${componentName}.js`), lynxComponentCode)
 
   exportLines.push(`export { default as ${componentName} } from './flags/${componentName}.js'`)
   generatedNames.push({ code, componentName })
@@ -93,6 +114,7 @@ await Bun.write(
 )
 
 console.log(`✓ Generated ${generatedNames.length} flag components in flags/`)
+console.log(`✓ Generated ${generatedNames.length} flag components in flags-lynx/`)
 console.log(`✓ Written index.js and index.d.ts`)
 console.log('\nSample mappings:')
 generatedNames.slice(0, 5).forEach(({ code, componentName }) =>
