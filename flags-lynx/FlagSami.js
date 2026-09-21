@@ -3,13 +3,10 @@ import m from 'mithril-runtime'
 
 /** Mithril component for the "sami" circle flag (mithril-lynx). */
 const FlagSami = {
-  view: (vnode) => {
-    const { size, ...rest } = vnode.attrs || {}
-    return m(
-      'svg',
-      { ..._attrs(size), ...rest, content: `<defs><clipPath id="a"><circle cx="256" cy="256" r="256" fill="#fff" /></clipPath></defs><g clip-path="url(#a)"><path fill="#ffda44" d="M199 0h32l32 256-32 256h-32l-32-256Z"/><path fill="#496e2d" d="M167 0h32v512h-32l-32-256Z"/><path fill="#0052b4" d="M231 0h281v512H231Z"/><path fill="#d80027" d="M0 0h167v512H0Zm199 132-32 16 32 16a92 92 0 1 1 0 184l-32 16 32 16a124 124 0 0 0 0-248z"/><path fill="#0052b4" d="M199 132a124 124 0 0 0 0 248v-32a92 92 0 1 1 0-184z"/></g>` }
-    )
-  }
+  view: (vnode) => m(
+    'svg',
+    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: `<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="M199 0h32l32 256-32 256h-32l-32-256Z"/><path fill="#496e2d" d="M167 0h32v512h-32l-32-256Z"/><path fill="#0052b4" d="M231 0h281v512H231Z"/><path fill="#d80027" d="M0 0h167v512H0Zm199 132-32 16 32 16a92 92 0 1 1 0 184l-32 16 32 16a124 124 0 0 0 0-248z"/><path fill="#0052b4" d="M199 132a124 124 0 0 0 0 248v-32a92 92 0 1 1 0-184z"/></g>` }
+  )
 }
 
 export default FlagSami

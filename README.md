@@ -59,8 +59,6 @@ const MyComponent = {
 
 The web entry (`circle-flags-mithril` / `flags/*`) is unchanged and still uses `m.trust`.
 
-Lynx's `<svg>` does not support the `<mask>` tag that circle-flags uses for the circular clip. The `flags-lynx/` build rewrites that pattern to `<clipPath>` + `clip-path`, which Lynx does support.
-
 `mithril-runtime` is an optional peer dependency: install it when you use `flags-lynx/*`.
 
 ## Build

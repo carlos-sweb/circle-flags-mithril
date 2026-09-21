@@ -1,6 +1,6 @@
 {
   "name": "circle-flags-mithril",
-  "version": "1.1.2",
+  "version": "1.1.1",
   "description": "Circle flag SVGs as Mithril.js components",
   "type": "module",
   "main": "index.js",

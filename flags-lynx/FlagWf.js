@@ -3,13 +3,10 @@ import m from 'mithril-runtime'
 
 /** Mithril component for the "wf" circle flag (mithril-lynx). */
 const FlagWf = {
-  view: (vnode) => {
-    const { size, ...rest } = vnode.attrs || {}
-    return m(
-      'svg',
-      { ..._attrs(size), ...rest, content: `<defs><clipPath id="a"><circle cx="256" cy="256" r="256" fill="#fff" /></clipPath></defs><g clip-path="url(#a)"><path fill="#d80027" d="M256 0h256v512H0V256Z"/><path fill="#eee" d="M0 0h256v256H0Z"/><path fill="#0052b4" d="M0 0h75v224H0Z"/><path fill="#d80027" d="M149 0h75v224h-75z"/><path fill="#eee" d="m384 232-72-72h144zm-24 24-72-72v144zm24 24-72 72h144zm24-24 72-72v144z"/></g>` }
-    )
-  }
+  view: (vnode) => m(
+    'svg',
+    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: `<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#d80027" d="M256 0h256v512H0V256Z"/><path fill="#eee" d="M0 0h256v256H0Z"/><path fill="#0052b4" d="M0 0h75v224H0Z"/><path fill="#d80027" d="M149 0h75v224h-75z"/><path fill="#eee" d="m384 232-72-72h144zm-24 24-72-72v144zm24 24-72 72h144zm24-24 72-72v144z"/></g>` }
+  )
 }
 
 export default FlagWf
