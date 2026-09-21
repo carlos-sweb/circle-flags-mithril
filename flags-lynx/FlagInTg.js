@@ -3,10 +3,13 @@ import m from 'mithril-runtime'
 
 /** Mithril component for the "in-tg" circle flag (mithril-lynx). */
 const FlagInTg = {
-  view: (vnode) => m(
-    'svg',
-    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: `<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#eee" d="M0 0h512v128l-256 64L0 128Z"/><path fill="#338af3" d="M0 128h512v128l-256 64L0 256Z"/><path fill="#ff9811" d="M0 256h512v128l-256 64L0 384Z"/><path fill="#496e2d" d="M0 384h512v128H0z"/></g>` }
-  )
+  view: (vnode) => {
+    const { size, ...rest } = vnode.attrs || {}
+    return m(
+      'svg',
+      { ..._attrs(size), ...rest, content: `<defs><clipPath id="a"><circle cx="256" cy="256" r="256" fill="#fff" /></clipPath></defs><g clip-path="url(#a)"><path fill="#eee" d="M0 0h512v128l-256 64L0 128Z"/><path fill="#338af3" d="M0 128h512v128l-256 64L0 256Z"/><path fill="#ff9811" d="M0 256h512v128l-256 64L0 384Z"/><path fill="#496e2d" d="M0 384h512v128H0z"/></g>` }
+    )
+  }
 }
 
 export default FlagInTg

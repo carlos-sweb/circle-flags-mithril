@@ -3,11 +3,14 @@ import m from 'mithril'
 
 /** Mithril component for the "ua" circle flag. */
 const FlagUa = {
-  view: (vnode) => m(
-    'svg',
-    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}) },
-    m.trust(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 256 258-39.4L512 256v256H0z"/><path fill="#338af3" d="M0 0h512v256H0z"/></g>`)
-  )
+  view: (vnode) => {
+    const { size, ...rest } = vnode.attrs || {}
+    return m(
+      'svg',
+      { ..._attrs(size), ...rest },
+      m.trust(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="m0 256 258-39.4L512 256v256H0z"/><path fill="#338af3" d="M0 0h512v256H0z"/></g>`)
+    )
+  }
 }
 
 export default FlagUa

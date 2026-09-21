@@ -3,11 +3,14 @@ import m from 'mithril'
 
 /** Mithril component for the "it-65" circle flag. */
 const FlagIt65 = {
-  view: (vnode) => m(
-    'svg',
-    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}) },
-    m.trust(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v512H0V0Z"/><path fill="#0052b4" d="M256 404.4S368 378.7 368 293v-77l-88 80-78 86c27.3 16.3 54 22.4 54 22.4Z"/><path fill="#eee" d="M144 152v141a97 97 0 0 0 1.6 17.4L224 240l80-88H144Z"/><path fill="#6da544" d="M304 152 145.5 310.5c6.5 34 31.7 57 56.4 71.6l166-166v-64h-64Z"/></g>`)
-  )
+  view: (vnode) => {
+    const { size, ...rest } = vnode.attrs || {}
+    return m(
+      'svg',
+      { ..._attrs(size), ...rest },
+      m.trust(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#d80027" d="M0 0h512v512H0V0Z"/><path fill="#0052b4" d="M256 404.4S368 378.7 368 293v-77l-88 80-78 86c27.3 16.3 54 22.4 54 22.4Z"/><path fill="#eee" d="M144 152v141a97 97 0 0 0 1.6 17.4L224 240l80-88H144Z"/><path fill="#6da544" d="M304 152 145.5 310.5c6.5 34 31.7 57 56.4 71.6l166-166v-64h-64Z"/></g>`)
+    )
+  }
 }
 
 export default FlagIt65

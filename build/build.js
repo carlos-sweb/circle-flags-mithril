@@ -37,6 +37,26 @@ function parseSvg(svgContent) {
   return { inner, viewBox }
 }
 
+/**
+ * Lynx SVG does not support <mask>, but does support <clipPath> + clip-path.
+ * circle-flags always uses the same circular mask pattern — rewrite it for Lynx.
+ */
+function toLynxSvg(inner) {
+  return inner
+    .replace(
+      /<mask\b[^>]*>\s*<circle\b([^>]*?)\s*\/?>\s*<\/mask>/gi,
+      (_, attrs) => `<defs><clipPath id="a"><circle${attrs} /></clipPath></defs>`
+    )
+    .replace(/\smask="/g, ' clip-path="')
+}
+
+function escapeTemplateLiteral(value) {
+  return value
+    .replace(/\\/g, '\\\\')
+    .replace(/`/g, '\\`')
+    .replace(/\$\{/g, '\\${')
+}
+
 const files = (await readdir(FLAGS_DIR))
   .filter(f => f.endsWith('.svg'))
   .sort()
@@ -51,29 +71,24 @@ for (const file of files) {
   const svgRaw = await readFile(join(FLAGS_DIR, file), 'utf8')
   const { inner, viewBox } = parseSvg(svgRaw)
 
-  const svgSafe = inner
-    .replace(/\\/g, '\\\\')
-    .replace(/`/g, '\\`')
-    .replace(/\$\{/g, '\\${')
+  const svgSafe = escapeTemplateLiteral(inner)
+  const lynxSafe = escapeTemplateLiteral(toLynxSvg(inner))
 
-  const attrsExpr = viewBox === '0 0 512 512'
-    ? `{ ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}) }`
-    : `{ ..._attrs(vnode.attrs?.size), viewBox: '${viewBox}', ...(vnode.attrs || {}) }`
-
-  const lynxAttrsExpr = viewBox === '0 0 512 512'
-    ? `{ ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: \`${svgSafe}\` }`
-    : `{ ..._attrs(vnode.attrs?.size), viewBox: '${viewBox}', ...(vnode.attrs || {}), content: \`${svgSafe}\` }`
+  const viewBoxOverride = viewBox === '0 0 512 512' ? '' : `, viewBox: '${viewBox}'`
 
   const componentCode = `import _attrs from '../default_attrs.js'
 import m from 'mithril'
 
 /** Mithril component for the "${code}" circle flag. */
 const ${componentName} = {
-  view: (vnode) => m(
-    'svg',
-    ${attrsExpr},
-    m.trust(\`${svgSafe}\`)
-  )
+  view: (vnode) => {
+    const { size, ...rest } = vnode.attrs || {}
+    return m(
+      'svg',
+      { ..._attrs(size)${viewBoxOverride}, ...rest },
+      m.trust(\`${svgSafe}\`)
+    )
+  }
 }
 
 export default ${componentName}
@@ -84,10 +99,13 @@ import m from 'mithril-runtime'
 
 /** Mithril component for the "${code}" circle flag (mithril-lynx). */
 const ${componentName} = {
-  view: (vnode) => m(
-    'svg',
-    ${lynxAttrsExpr}
-  )
+  view: (vnode) => {
+    const { size, ...rest } = vnode.attrs || {}
+    return m(
+      'svg',
+      { ..._attrs(size)${viewBoxOverride}, ...rest, content: \`${lynxSafe}\` }
+    )
+  }
 }
 
 export default ${componentName}
