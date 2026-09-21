@@ -93,8 +93,15 @@ const ${componentName} = {
 export default ${componentName}
 `
 
+  const dtsCode = `import type { Vnode } from 'mithril'
+declare const ${componentName}: { view: (vnode: Vnode<{ size?: number; [key: string]: any }>) => any }
+export default ${componentName}
+`
+
   await Bun.write(join(OUT_DIR, `${componentName}.js`), componentCode)
+  await Bun.write(join(OUT_DIR, `${componentName}.d.ts`), dtsCode)
   await Bun.write(join(OUT_LYNX, `${componentName}.js`), lynxComponentCode)
+  await Bun.write(join(OUT_LYNX, `${componentName}.d.ts`), dtsCode)
 
   exportLines.push(`export { default as ${componentName} } from './flags/${componentName}.js'`)
   generatedNames.push({ code, componentName })
