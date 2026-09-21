@@ -60,9 +60,9 @@ for (const file of files) {
     ? `{ ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}) }`
     : `{ ..._attrs(vnode.attrs?.size), viewBox: '${viewBox}', ...(vnode.attrs || {}) }`
 
-  const lynxAttrsExpr = viewBox === '0 0 512 512'
-    ? `{ ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: \`${svgSafe}\` }`
-    : `{ ..._attrs(vnode.attrs?.size), viewBox: '${viewBox}', ...(vnode.attrs || {}), content: \`${svgSafe}\` }`
+  const lynxDefaultsFn = viewBox === '0 0 512 512'
+    ? `(size) => ({ ..._attrs(size) })`
+    : `(size) => ({ ..._attrs(size), viewBox: '${viewBox}' })`
 
   const componentCode = `import _attrs from '../default_attrs.js'
 import m from 'mithril'
@@ -80,15 +80,10 @@ export default ${componentName}
 `
 
   const lynxComponentCode = `import _attrs from '../default_attrs.js'
-import m from 'mithril-runtime'
+import { lynxIcon } from '../lynx_svg.js'
 
 /** Mithril component for the "${code}" circle flag (mithril-lynx). */
-const ${componentName} = {
-  view: (vnode) => m(
-    'svg',
-    ${lynxAttrsExpr}
-  )
-}
+const ${componentName} = lynxIcon(\`${svgSafe}\`, ${lynxDefaultsFn}, 512)
 
 export default ${componentName}
 `

@@ -1,12 +1,7 @@
 import _attrs from '../default_attrs.js'
-import m from 'mithril-runtime'
+import { lynxIcon } from '../lynx_svg.js'
 
 /** Mithril component for the "cw" circle flag (mithril-lynx). */
-const FlagCw = {
-  view: (vnode) => m(
-    'svg',
-    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: `<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v342.3l-22 34.2 22 32.5v103H0V409l25.4-31L0 342.2z"/><path fill="#eee" d="m175.2 164.2 13.8 42.5h44.7L197.6 233l13.8 42.5-36.2-26.3-36.1 26.3 13.8-42.5-36.2-26.3h44.7zm-76.7-44.5 8.2 25.5h26.9L111.9 161l8.3 25.5-21.7-15.7-21.7 15.7L85 161l-21.7-15.7h26.9z"/><path fill="#ffda44" d="M0 342.3h512V409H0z"/></g>` }
-  )
-}
+const FlagCw = lynxIcon(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v342.3l-22 34.2 22 32.5v103H0V409l25.4-31L0 342.2z"/><path fill="#eee" d="m175.2 164.2 13.8 42.5h44.7L197.6 233l13.8 42.5-36.2-26.3-36.1 26.3 13.8-42.5-36.2-26.3h44.7zm-76.7-44.5 8.2 25.5h26.9L111.9 161l8.3 25.5-21.7-15.7-21.7 15.7L85 161l-21.7-15.7h26.9z"/><path fill="#ffda44" d="M0 342.3h512V409H0z"/></g>`, (size) => ({ ..._attrs(size) }), 512)
 
 export default FlagCw

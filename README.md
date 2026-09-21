@@ -42,9 +42,9 @@ All 430 flags from circle-flags are available.
 
 ## mithril-lynx (Lynx)
 
-[mithril-lynx](https://www.npmjs.com/package/mithril-lynx) does not support `m.trust`. On Lynx, SVG markup is passed through the native `<svg>` `content` attribute instead.
+[mithril-lynx](https://www.npmjs.com/package/mithril-lynx) does not support `m.trust`. On Lynx, SVG must follow the [native `<svg>` contract](https://lynxjs.org/api/elements/built-in/svg): `content` is a **full** `<svg>...</svg>` document string, and display size is set on the outer element via a `style` **object** (`{ width: "Npx", height: "Npx" }`), not CSS text strings.
 
-Use the parallel `flags-lynx/` components, which import `mithril-runtime` and set `content`:
+Use the parallel `flags-lynx/` components (built with `lynxIcon` in `lynx_svg.js`):
 
 ```js
 import m from 'mithril-runtime'
@@ -75,7 +75,7 @@ The build script reads SVGs directly from the `circle-flags` npm package
 It generates:
 
 - `flags/` — Mithril web components (`m.trust`)
-- `flags-lynx/` — mithril-lynx components (`content` attribute)
+- `flags-lynx/` — mithril-lynx components (full SVG in `content` + size via `style`)
 
 ## Project structure
 
@@ -95,9 +95,12 @@ circle-flags-mithril/
 │   └── main.js
 ├── default_attrs.js      # Default SVG attributes (size, viewBox)
 ├── default_attrs.d.ts    # TypeScript types for default_attrs
+├── lynx_svg.js           # Lynx SVG helper (full content + style size)
+├── lynx_svg.d.ts
 ├── index.js              # Generated entry point (all exports)
 └── index.d.ts            # Generated TypeScript declarations
 ```
+
 
 ## License
 

@@ -1,12 +1,7 @@
 import _attrs from '../default_attrs.js'
-import m from 'mithril-runtime'
+import { lynxIcon } from '../lynx_svg.js'
 
 /** Mithril component for the "us-co" circle flag (mithril-lynx). */
-const FlagUsCo = {
-  view: (vnode) => m(
-    'svg',
-    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: `<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v167l-64 89 64 89v167H0V345l64-89-64-89Z"/><path fill="#eee" d="M0 167h512v178H0z"/><path fill="#d80027" d="M344.3 299.8A128 128 0 0 1 201.8 382 128 128 0 0 1 96 256a128 128 0 0 1 105.8-126 128 128 0 0 1 142.5 82.2L224 256z"/><circle cx="224" cy="256" r="64" fill="#ffda44"/></g>` }
-  )
-}
+const FlagUsCo = lynxIcon(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#0052b4" d="M0 0h512v167l-64 89 64 89v167H0V345l64-89-64-89Z"/><path fill="#eee" d="M0 167h512v178H0z"/><path fill="#d80027" d="M344.3 299.8A128 128 0 0 1 201.8 382 128 128 0 0 1 96 256a128 128 0 0 1 105.8-126 128 128 0 0 1 142.5 82.2L224 256z"/><circle cx="224" cy="256" r="64" fill="#ffda44"/></g>`, (size) => ({ ..._attrs(size) }), 512)
 
 export default FlagUsCo

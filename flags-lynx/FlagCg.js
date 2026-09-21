@@ -1,12 +1,7 @@
 import _attrs from '../default_attrs.js'
-import m from 'mithril-runtime'
+import { lynxIcon } from '../lynx_svg.js'
 
 /** Mithril component for the "cg" circle flag (mithril-lynx). */
-const FlagCg = {
-  view: (vnode) => m(
-    'svg',
-    { ..._attrs(vnode.attrs?.size), ...(vnode.attrs || {}), content: `<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="M384 0h128v128L352 352 128 512H0V384l160-224Z"/><path fill="#6da544" d="M0 384 384 0H0Z"/><path fill="#d80027" d="M512 128 128 512h384z"/></g>` }
-  )
-}
+const FlagCg = lynxIcon(`<mask id="a"><circle cx="256" cy="256" r="256" fill="#fff"/></mask><g mask="url(#a)"><path fill="#ffda44" d="M384 0h128v128L352 352 128 512H0V384l160-224Z"/><path fill="#6da544" d="M0 384 384 0H0Z"/><path fill="#d80027" d="M512 128 128 512h384z"/></g>`, (size) => ({ ..._attrs(size) }), 512)
 
 export default FlagCg
